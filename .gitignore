@@ -1,0 +1,45 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+**/Debug/
+**/Release/
+*.log
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.dbmdl
+*.jfm
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET
+wwwroot/uploads/
+appsettings.*.json
+!appsettings.json
+
+# Secrets
+appsettings.Development.json
+secrets.json
+
+# NuGet
+packages/
+*.nupkg
+
+# Migration backups
+Backup/
+"firebase-service-account.json" 
