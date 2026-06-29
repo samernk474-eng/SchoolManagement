@@ -10,12 +10,6 @@ namespace SchoolManagement.Api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_Employees_Phone",
-                table: "Employees");
-
-            migrationBuilder.Sql("UPDATE Employees SET Phone = NULL WHERE Phone = ''");
-
             migrationBuilder.AlterColumn<string>(
                 name: "Phone",
                 table: "Employees",
@@ -23,6 +17,8 @@ namespace SchoolManagement.Api.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(450)");
+
+            migrationBuilder.Sql("UPDATE Employees SET Phone = NULL WHERE Phone = ''");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_Phone",
@@ -39,6 +35,8 @@ namespace SchoolManagement.Api.Migrations
                 name: "IX_Employees_Phone",
                 table: "Employees");
 
+            migrationBuilder.Sql("UPDATE Employees SET Phone = '' WHERE Phone IS NULL");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Phone",
                 table: "Employees",
@@ -48,12 +46,6 @@ namespace SchoolManagement.Api.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(450)",
                 oldNullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_Phone",
-                table: "Employees",
-                column: "Phone",
-                unique: true);
         }
     }
 }
