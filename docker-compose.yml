@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: schoolmanagement-db
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "123456789abcM123@#"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' -C || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  api:
+    build: .
+    container_name: schoolmanagement-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Default: "Server=db,1433;Database=SchoolManagement;User Id=sa;Password=123456789abcM123@#;Encrypt=False;TrustServerCertificate=True;MultipleActiveResultSets=true"
+      Jwt__Secret: ${JWT_SECRET}
+      Jwt__Issuer: "SchoolManagement"
+      Jwt__Audience: "SchoolManagementClients"
+    ports:
+      - "8080:8080"
+volumes:
+  sqlserver_data:
