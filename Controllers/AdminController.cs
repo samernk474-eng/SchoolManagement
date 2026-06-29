@@ -82,7 +82,8 @@ public class AdminController(
         db.Grades.RemoveRange(db.Grades.Where(g => g.SchoolId == id));
         db.MarkConfigs.RemoveRange(db.MarkConfigs.Where(c => c.SchoolId == id));
         db.TeacherAssignments.RemoveRange(db.TeacherAssignments.Where(t => t.SchoolId == id));
-        db.Employees.RemoveRange(db.Employees.Where(e => e.SchoolId == id)); 
+        db.Employees.RemoveRange(db.Employees.Where(e => e.SchoolId == id));
+        db.Schools.Remove(school);
         await db.SaveChangesAsync();
         return Ok(new { message = "تم حذف المدرسة" });
     }
