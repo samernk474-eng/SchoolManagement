@@ -12,7 +12,7 @@ using SchoolManagement.Api.Data;
 namespace SchoolManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260629224536_MakeEmployeePhoneUnique")]
+    [Migration("20260629225028_MakeEmployeePhoneUnique")]
     partial class MakeEmployeePhoneUnique
     {
         /// <inheritdoc />
@@ -359,7 +359,6 @@ namespace SchoolManagement.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Photo")
@@ -387,7 +386,8 @@ namespace SchoolManagement.Api.Migrations
                         .IsUnique();
 
                     b.HasIndex("Phone")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Phone] IS NOT NULL");
 
                     b.HasIndex("SchoolId", "Role")
                         .IsUnique()

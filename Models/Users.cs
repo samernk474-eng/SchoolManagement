@@ -25,7 +25,7 @@ public class Employee
     public int SchoolId { get; set; }
     public School? School { get; set; }
 
-    public string Phone { get; set; } = "";
+    public string? Phone { get; set; }
     public string Address { get; set; } = "";
     public DateTime? BirthDate { get; set; }
     public string Qualification { get; set; } = "";
