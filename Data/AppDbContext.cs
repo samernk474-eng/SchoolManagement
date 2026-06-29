@@ -48,6 +48,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     
         mb.Entity<Admin>().HasIndex(a => a.Email).IsUnique();
         mb.Entity<Employee>().HasIndex(e => e.Email).IsUnique();
+        mb.Entity<Employee>().HasIndex(e => e.Phone).IsUnique();
         mb.Entity<Student>().HasIndex(s => s.Email).IsUnique();
 
      
