@@ -100,6 +100,9 @@ public class AdminController(
         if (await db.Employees.AnyAsync(e => e.Email == email))
             return BadRequest(new { message = "الإيميل مستخدم بالفعل" });
 
+        if (request.Phone is not null && await db.Employees.AnyAsync(e => e.Phone == request.Phone))
+            return BadRequest(new { message = "الرقم مستخدم بالفعل" });
+
         var employee = new Employee
         {
             Name = request.Name,
@@ -107,7 +110,7 @@ public class AdminController(
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             Role = request.Role,
             SchoolId = schoolId,
-            Phone = request.Phone ?? "",
+            Phone = request.Phone,
             Address = request.Address ?? "",
             BirthDate = request.BirthDate,
             Qualification = request.Qualification ?? "",
@@ -133,6 +136,10 @@ public class AdminController(
     {
         var employee = await db.Employees.FindAsync(id);
         if (employee is null) return NotFound();
+
+        if (request.Phone is not null && request.Phone != employee.Phone && await db.Employees.AnyAsync(e => e.Phone == request.Phone && e.Id != id))
+            return BadRequest(new { message = "الرقم مستخدم بالفعل" });
+
         employee.Name = request.Name ?? employee.Name;
         employee.Phone = request.Phone ?? employee.Phone;
         employee.Address = request.Address ?? employee.Address;
