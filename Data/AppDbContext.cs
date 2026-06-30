@@ -79,6 +79,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         mb.Entity<StudentAttendance>().HasIndex(a => new { a.StudentId, a.Date }).IsUnique();
         mb.Entity<EmployeeAttendance>().HasIndex(a => new { a.EmployeeId, a.Date }).IsUnique();
         mb.Entity<ReportCard>().HasIndex(r => new { r.StudentId, r.Semester, r.Year }).IsUnique();
+        mb.Entity<Grade>().HasIndex(g => new { g.SchoolId, g.Name }).IsUnique();
+        mb.Entity<Section>().HasIndex(s => new { s.SchoolId, s.GradeId, s.Name }).IsUnique();
         mb.Entity<Schedule>().HasIndex(s => new { s.SectionId, s.Day }).IsUnique();
         mb.Entity<LibraryMember>().HasIndex(m => m.StudentId).IsUnique();
         mb.Entity<ActivityRegistration>().HasIndex(r => new { r.ActivityId, r.StudentId }).IsUnique();

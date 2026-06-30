@@ -26,6 +26,9 @@ public class ManagerController(
     [HttpPost("grades")]
     public async Task<IActionResult> CreateGrade(GradeRequest request)
     {
+        if (await db.Grades.AnyAsync(g => g.SchoolId == SchoolId && g.Name == request.Name))
+            return BadRequest(new { message = "هذا الصف موجود مسبقاً" });
+
         var grade = new Grade { SchoolId = SchoolId, Name = request.Name, Level = request.Level };
         db.Grades.Add(grade);
         await db.SaveChangesAsync();
@@ -44,6 +47,9 @@ public class ManagerController(
         if (request.CounselorId is not null &&
             !await db.Employees.AnyAsync(e => e.Id == request.CounselorId && e.SchoolId == SchoolId && e.Role == EmployeeRole.Counselor && !e.IsDismissed))
             return BadRequest(new { message = "الموجه غير موجود في مدرستك" });
+
+        if (await db.Sections.AnyAsync(s => s.SchoolId == SchoolId && s.GradeId == request.GradeId && s.Name == request.Name))
+            return BadRequest(new { message = "هذه الشعبة موجودة مسبقاً" });
 
         var section = new Section
         {
